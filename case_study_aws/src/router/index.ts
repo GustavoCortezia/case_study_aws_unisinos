@@ -6,7 +6,6 @@
 
 // Composables
 import Dashboard from '@/components/Dashboard.vue'
-import DashboardTest from '@/components/DashboardTest.vue'
 import UploadFile from '@/components/UploadFile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
@@ -25,7 +24,7 @@ const router = createRouter({
         {
       path: '/dashboard',
       name: 'dashboard',
-      component: DashboardTest,
+      component: Dashboard,
       meta: {
         title: 'dashboard',
       },
