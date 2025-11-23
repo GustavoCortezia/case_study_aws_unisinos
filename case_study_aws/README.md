@@ -14,7 +14,6 @@ The application allows users to view financial dashboards (via Amazon QuickSight
 
 This frontend does not store any data. It acts as a client that interacts directly with AWS services:
 
-* **Authentication (Recommended):** The user authenticates via Amazon Cognito to obtain temporary AWS credentials.
 * **Dashboard Viewing:** The app invokes an AWS Lambda function (`getQuickSightDashboardUrl`) which generates and returns a signed embed URL from Amazon QuickSight. The app then renders this URL in an iframe.
 * **File Upload:** The app uses the Cognito credentials to upload a file directly to an Amazon S3 bucket, using the `lib-storage` library for multipart uploads.
 
@@ -76,24 +75,10 @@ This project uses environment variables to securely store your AWS configuration
     * > **IMPORTANT:** Add `.env.local` to your `.gitignore` file to never commit your keys!
 
 4.  **Add variables to `.env.local`:**
-
-    (If using the secure Cognito method, which is recommended)
     ```ini
-    # VITE_ prefix is required if using Vite
     VITE_AWS_REGION=us-east-2
     VITE_AWS_COGNITO_IDENTITY_POOL_ID=us-east-2:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     VITE_AWS_S3_BUCKET_NAME=your-statements-bucket
-    VITE_AWS_LAMBDA_FUNCTION_NAME=getQuickSightDashboardUrl
-    ```
-
-    (If using static access keys - NOT RECOMMENDED FOR PRODUCTION)
-    ```ini
-    # AVOID USING IN PRODUCTION - FOR LOCAL TESTING ONLY
-    VITE_AWS_REGION=us-east-2
-    VITE_AWS_ACCESS_KEY_ID=AKIA...
-    VITE_AWS_SECRET_ACCESS_KEY=...
-    VITE_AWS_S3_BUCKET_NAME=your-statements-bucket
-    VITE_AWS_LAMBDA_FUNCTION_NAME=getQuickSightDashboardUrl
     ```
 
 5.  **Check `src/aws-config.js`:**
