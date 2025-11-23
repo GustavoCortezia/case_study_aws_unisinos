@@ -3,6 +3,8 @@
 This is a Vue.js frontend project (using Vue 3, Vite, and Vuetify) that serves as an interface for a financial analysis backend hosted on AWS.
 The application allows users to view financial dashboards (via Amazon QuickSight) and upload new financial statements (directly to Amazon S3) for processing.
 
+ **Attencion:** aws_lambda.py is the file used in AWS, it has no use in this frontend project
+
 ## 🚀 Core Features
 
 * **Dashboard Viewing:** Securely renders an Amazon QuickSight dashboard within the application by fetching an embed URL via AWS Lambda.
