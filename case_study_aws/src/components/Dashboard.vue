@@ -74,7 +74,6 @@
       No transactions found in the database.
     </v-alert>
 
-    <!-- Error Alert -->
     <v-alert
       v-else-if="errorMessage"
       type="error"
@@ -119,7 +118,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useTheme } from 'vuetify';
-// AWS Imports
 import { lambda } from '@/aws-config.js';
 import { InvokeCommand } from "@aws-sdk/client-lambda";
 
@@ -135,7 +133,6 @@ const totalBalance = computed(() => {
 
 const formatDate = (dateString) => {
   if (!dateString) return '-';
-  // Handle ISO dates (2023-10-01T00:00:00.000Z) often returned by DBs
   const date = new Date(dateString);
   return !isNaN(date) ? date.toLocaleDateString('en-US') : dateString;
 };
@@ -181,32 +178,25 @@ const fetchDataFromDatabase = async () => {
   errorMessage.value = '';
 
   try {
-    // Create the command to invoke the Lambda function
-    // REPLACE 'getUserTransactions' with your actual Lambda function name
     const command = new InvokeCommand({
       FunctionName: 'getUserTransactions',
       InvocationType: 'RequestResponse'
     });
 
-    // Send the command to AWS
     const response = await lambda.send(command);
 
-    // Decode the payload (AWS SDK v3 returns Uint8Array)
     const payloadString = new TextDecoder("utf-8").decode(response.Payload);
     const payload = JSON.parse(payloadString);
 
-    // Handle potential errors returned inside the payload
     if (payload.errorMessage) {
       throw new Error(payload.errorMessage);
     }
 
-    // Determine if data is in payload directy or in a 'body' property (common in API Gateway proxy integration)
     let transactionsData = [];
 
     if (Array.isArray(payload)) {
       transactionsData = payload;
     } else if (payload.body) {
-      // If body is a string (JSON), parse it
       const bodyParsed = typeof payload.body === 'string' ? JSON.parse(payload.body) : payload.body;
       transactionsData = Array.isArray(bodyParsed) ? bodyParsed : [];
     }
@@ -230,7 +220,6 @@ const processDataForChart = (transactions) => {
     if (!groupedData[t.category]) {
       groupedData[t.category] = 0;
     }
-    // Ensure amount is treated as number
     groupedData[t.category] += Number(t.amount);
   });
 
